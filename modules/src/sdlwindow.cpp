@@ -5,7 +5,7 @@
 
 using namespace std;
 
-SdlWindow::SdlWindow() {
+void SdlWindow::setup() {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         cout<<"Error"<<endl;
     } else {
@@ -19,8 +19,8 @@ SdlWindow::SdlWindow() {
                               SDL_WINDOW_BORDERLESS);
 
     if (window == nullptr) {
-       cout<<"Error creating SDL window"<<endl;
-       m_isRunning = false;
+        cout<<"Error creating SDL window"<<endl;
+        m_isRunning = false;
     }
 
     //Create SDL Renderer
@@ -38,4 +38,33 @@ SdlWindow::SdlWindow() {
 
 bool SdlWindow::isRunning() const {
     return m_isRunning;
+}
+
+void SdlWindow::update() {
+}
+
+
+void SdlWindow::process_input() {
+    SDL_Event event;
+    SDL_PollEvent(&event);
+
+    switch (event.type) {
+        case SDL_QUIT:
+            m_isRunning = false;
+        break;
+
+        case SDL_KEYDOWN:
+            if (event.key.keysym.sym == SDLK_ESCAPE) {
+                m_isRunning = false;
+            }
+       break;
+
+    }
+}
+
+void SdlWindow::render() {
+    SDL_SetRenderDrawColor(renderer,255,0,0,255);
+    SDL_RenderClear(renderer);
+
+    SDL_RenderPresent(renderer);
 }
