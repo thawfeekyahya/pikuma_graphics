@@ -3,6 +3,7 @@
 int main() {
     SdlWindow window;
 
+    window.initialize();
     window.setup();
 
     while (window.isRunning()) {
