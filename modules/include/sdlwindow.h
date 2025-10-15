@@ -19,6 +19,8 @@ public:
 private:
     void clear_color_buffer(uint32_t color);
     void render_color_buffer();
+    void draw_grid();
+    void draw_rectangle(uint x,uint y,uint width,uint height,uint32_t color);
     bool m_isRunning = false;
     uint screen_width = 800;
     uint screen_height = 600;
