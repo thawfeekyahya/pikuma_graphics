@@ -15,6 +15,13 @@ SdlWindow::~SdlWindow() {
     destroy_window();
 }
 
+void SdlWindow::draw_pixel(uint x,uint y, uint32_t color) {
+    if ( x < screen_width && y < screen_height) {
+        color_buffer[ screen_width * y + x ] = color;
+    }
+}
+
+
 void SdlWindow::destroy_window() {
     delete color_buffer;
     SDL_DestroyRenderer(renderer);
@@ -114,7 +121,7 @@ void SdlWindow::draw_rectangle(uint x,uint y,uint width,uint height,uint32_t col
         for (uint j=0; j < width; j++) {
             uint curr_x = x + j;
             uint curr_y = y + i;
-            color_buffer[(screen_width * curr_y) + curr_x] = color;
+            draw_pixel(curr_x,curr_y,color);
         }
     }
 }
