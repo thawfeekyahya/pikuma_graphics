@@ -15,9 +15,5 @@ int main() {
         window.update();
         window.render();
     }
-
-
-
-
     return 0;
 }

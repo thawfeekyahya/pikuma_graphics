@@ -2,21 +2,41 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
+#include "util.h"
 
 using namespace std;
+using namespace pikuma::utility;
 
 
 void SdlWindow::setup() {
     uint total_len = screen_width * screen_height;
     color_buffer = new uint32_t[total_len];
+    
+    int point_count = 0;
+    
+    for (float x=-1; x <= 1; x+= 0.25) {
+        for (float y=-1; y <=1; y+=0.25) {
+            for (float z=-1; z<=1; z+=0.25) {
+                Vector3d new_point(x,y,z);
+                cube_points[point_count++] = new_point;
+            }
+        }
+    }
+    
+}
+
+Vector2d SdlWindow::project(Vector3d point) {
+    float fov_factor = 128;
+    Vector2d projected_point(point.get_x() * fov_factor,point.get_y()*fov_factor);
+    return projected_point;
 }
 
 SdlWindow::~SdlWindow() {
     destroy_window();
 }
 
-void SdlWindow::draw_pixel(uint x,uint y, uint32_t color) {
-    if ( x < screen_width && y < screen_height) {
+void SdlWindow::draw_pixel(int x,int y, uint32_t color) {
+    if ((x >=0 && x < screen_width) && (y >= 0 && y < screen_height)) {
         color_buffer[ screen_width * y + x ] = color;
     }
 }
@@ -93,6 +113,12 @@ bool SdlWindow::isRunning() const {
 }
 
 void SdlWindow::update() {
+    for (int i=0; i< N_POINTS; i++) {
+        Vector3d point = cube_points[i];
+        Vector2d projected_point = project(point);
+
+        projected_points[i] = projected_point;
+    }
 }
 
 
@@ -148,14 +174,27 @@ void SdlWindow::draw_grid() {
 }
 
 void SdlWindow::render() {
-    SDL_SetRenderDrawColor(renderer,255,0,0,255);
-    SDL_RenderClear(renderer);
+    // --- Phase 1
+    //SDL_SetRenderDrawColor(renderer,255,0,0,255);
+    //SDL_RenderClear(renderer);
 
-    draw_grid();
-    draw_rectangle(40,70,30,30,0xFF0000FF);
+    //draw_grid();
+    //draw_rectangle(40,70,30,30,0xFF0000FF);
+    //
 
+    // --- Phase 2
+    for (int i =0; i< N_POINTS; i++) {
+        Vector2d projected_point = projected_points[i];
+        draw_rectangle(
+          projected_point.get_x() + (screen_width * 0.5), 
+          projected_point.get_y()+ (screen_height * 0.5),
+          4,4,
+          0xFFFFFF00
+        );
+    }
+     
     render_color_buffer();
-    clear_color_buffer(0xFFFFFF00);
+    clear_color_buffer(0xFF000000);
 
     SDL_RenderPresent(renderer);
 }

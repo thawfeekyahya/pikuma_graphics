@@ -6,6 +6,9 @@ namespace pikuma::utility {
        public:
           Vector2d();
           Vector2d(float p_x,float p_y);
+
+          float get_x() const { return x; };
+          float get_y() const { return y; };
        private:
           float x;
           float y;
@@ -18,6 +21,10 @@ namespace pikuma::utility {
           Vector3d(float p_x,float p_y,float p_z);
           Vector3d(const Vector3d& other);
           Vector3d& operator=(const Vector3d& other);
+
+          float get_x() const { return x; };
+          float get_y() const { return y; };
+          float get_z() const { return z; };
           
        private:
            float x;
