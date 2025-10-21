@@ -1,4 +1,5 @@
 #include "util.h"
+#include <cmath>
 
 using namespace pikuma::utility;
 
@@ -8,6 +9,36 @@ Vector2d::Vector2d():x(0.0),y(0.0) {
 Vector2d::Vector2d(float p_x,float p_y) {
     x = p_x;
     y = p_y;
+}
+
+
+Vector3d Vector3d::rotate_x(float angle) {
+
+    return Vector3d(
+        x,
+        y * std::cos(angle) - z * std::sin(angle),
+        z * std::sin(angle) + z * std::cos(angle) 
+    );
+
+}
+
+Vector3d Vector3d::rotate_y(float angle) {
+    return Vector3d(
+        x * std::cos(angle) - z * std::sin(angle),
+        y,
+        x * std::sin(angle) + z * std::cos(angle)
+    );
+
+}
+
+Vector3d Vector3d::rotate_z(float angle) {
+
+    return Vector3d(
+        x * std::cos(angle) - y * std::sin(angle),
+        x * std::sin(angle) + y * std::cos(angle),
+        z 
+    );
+
 }
 
 Vector3d::Vector3d(): x(0.0),y(0.0),z(0.0) {

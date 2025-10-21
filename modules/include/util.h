@@ -26,6 +26,10 @@ namespace pikuma::utility {
           Vector3d(const Vector3d& other);
           Vector3d& operator=(const Vector3d& other);
 
+          Vector3d rotate_x(float _angle);
+          Vector3d rotate_y(float _angle);
+          Vector3d rotate_z(float _angle);
+
           void set_x(float p_x) { x = p_x; }
           void set_y(float p_y) { y = p_y; }
           void set_z(float p_z) { z = p_z; }
