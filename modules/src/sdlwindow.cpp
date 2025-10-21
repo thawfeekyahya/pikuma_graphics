@@ -26,8 +26,11 @@ void SdlWindow::setup() {
 }
 
 Vector2d SdlWindow::project(Vector3d point) {
-    float fov_factor = 128;
-    Vector2d projected_point(point.get_x() * fov_factor,point.get_y()*fov_factor);
+    float fov_factor = 640;
+    Vector2d projected_point(
+                             fov_factor * point.get_x() / point.get_z(),
+                             fov_factor * point.get_y() / point.get_z()
+                             );
     return projected_point;
 }
 
@@ -112,9 +115,13 @@ bool SdlWindow::isRunning() const {
     return m_isRunning;
 }
 
+
+Vector3d camera_pos(0.0,0.0,-5.0);
+
 void SdlWindow::update() {
     for (int i=0; i< N_POINTS; i++) {
         Vector3d point = cube_points[i];
+        point.set_z(point.get_z() - camera_pos.get_z());
         Vector2d projected_point = project(point);
 
         projected_points[i] = projected_point;
@@ -186,8 +193,8 @@ void SdlWindow::render() {
     for (int i =0; i< N_POINTS; i++) {
         Vector2d projected_point = projected_points[i];
         draw_rectangle(
-          projected_point.get_x() + (screen_width * 0.5), 
-          projected_point.get_y()+ (screen_height * 0.5),
+          projected_point.get_x() + (screen_width *  0.5), 
+          projected_point.get_y() + (screen_height * 0.5),
           4,4,
           0xFFFFFF00
         );

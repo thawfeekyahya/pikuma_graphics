@@ -2,7 +2,7 @@
 
 using namespace pikuma::utility;
 
-Vector2d::Vector2d():x(0),y(0) {
+Vector2d::Vector2d():x(0.0),y(0.0) {
 }
 
 Vector2d::Vector2d(float p_x,float p_y) {
@@ -10,7 +10,7 @@ Vector2d::Vector2d(float p_x,float p_y) {
     y = p_y;
 }
 
-Vector3d::Vector3d(): x(0),y(0),z(0) {
+Vector3d::Vector3d(): x(0.0),y(0.0),z(0.0) {
 }
 
 Vector3d::Vector3d(float p_x,float p_y,float p_z) {
@@ -24,7 +24,7 @@ Vector3d::Vector3d(const Vector3d& other) {
     if (this != &other) {
        x = other.x;
        y = other.y;
-       z = other.y;
+       z = other.z;
     }
 }
 
@@ -32,7 +32,7 @@ Vector3d& Vector3d::operator=(const Vector3d& other) {
     if (this != &other) {
        x = other.x;
        y = other.y;
-       z = other.y;
+       z = other.z;
     }
     return *this;
 }

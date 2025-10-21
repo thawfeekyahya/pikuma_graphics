@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 namespace pikuma::utility {
 
    class Vector2d {
@@ -7,12 +9,14 @@ namespace pikuma::utility {
           Vector2d();
           Vector2d(float p_x,float p_y);
 
+          void set_x(float p_x) { x = p_x; }
+          void set_y(float p_y) { y = p_y; }
+
           float get_x() const { return x; };
           float get_y() const { return y; };
        private:
-          float x;
-          float y;
-          float z;
+          float x=0.0;
+          float y=0.0;
    };
 
    class Vector3d {
@@ -22,14 +26,18 @@ namespace pikuma::utility {
           Vector3d(const Vector3d& other);
           Vector3d& operator=(const Vector3d& other);
 
+          void set_x(float p_x) { x = p_x; }
+          void set_y(float p_y) { y = p_y; }
+          void set_z(float p_z) { z = p_z; }
+
           float get_x() const { return x; };
           float get_y() const { return y; };
           float get_z() const { return z; };
           
        private:
-           float x;
-           float y;
-           float z;
+           float x=0.0;
+           float y=0.0;
+           float z=0.0;
    };
    
    class Camera {
