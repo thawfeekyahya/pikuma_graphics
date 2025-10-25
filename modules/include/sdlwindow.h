@@ -24,18 +24,21 @@ public:
 private:
     void clear_color_buffer(uint32_t color);
     void render_color_buffer();
+    void populate_dot_array_cube();
     void draw_grid();
     void draw_pixel(int x,int y, uint32_t color);
     void draw_rectangle(uint x,uint y,uint width,uint height,uint32_t color);
     int previous_frame_time = 0;
+
     bool m_isRunning = false;
     uint screen_width = 800;
     uint screen_height = 600;
     uint32_t* color_buffer = nullptr;
     SDL_Texture* color_buffer_texture = nullptr;
     static constexpr int N_POINTS = 9*9*9;
+
     pikuma::utility::Vector3d cube_points[N_POINTS];
     pikuma::utility::Vector2d projected_points[N_POINTS];
-
+    pikuma::utility::Vector3d cube_rotation{0.01,0.01,0.01};
 
 };

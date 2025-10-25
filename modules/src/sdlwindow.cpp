@@ -8,13 +8,15 @@ using namespace std;
 using namespace pikuma::utility;
 
 
-Vector3d cube_rotation(0.01,0.01,0.01);
-
-
 void SdlWindow::setup() {
     uint total_len = screen_width * screen_height;
     color_buffer = new uint32_t[total_len];
     
+}
+
+
+void SdlWindow::populate_dot_array_cube() {
+
     int point_count = 0;
     
     for (float x=-1; x <= 1; x+= 0.25) {
@@ -25,7 +27,6 @@ void SdlWindow::setup() {
             }
         }
     }
-    
 }
 
 Vector2d SdlWindow::project(Vector3d point) {
@@ -123,8 +124,13 @@ Vector3d camera_pos(0.0,0.0,-5.0);
 
 
 void SdlWindow::update() {
-    while ( !SDL_TICKS_PASSED(SDL_GetTicks(),previous_frame_time + FRAME_TARGET_TIME)); 
+ 
+    int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks()- previous_frame_time);   
     previous_frame_time = SDL_GetTicks();
+
+    if (time_to_wait > 0 && time_to_wait <= FRAME_TARGET_TIME) {
+        SDL_Delay(time_to_wait);
+    }
 
     cube_rotation.set_y(cube_rotation.get_y() + 0.01);
     cube_rotation.set_x(cube_rotation.get_x() + 0.01);
@@ -142,7 +148,6 @@ void SdlWindow::update() {
 
            projected_points[i] = projected_point;
        }
-    //}
 }
 
 
