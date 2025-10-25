@@ -17,7 +17,7 @@ Vector3d Vector3d::rotate_x(float angle) {
     return Vector3d(
         x,
         y * std::cos(angle) - z * std::sin(angle),
-        z * std::sin(angle) + z * std::cos(angle) 
+        y * std::sin(angle) + z * std::cos(angle) 
     );
 
 }

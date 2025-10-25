@@ -4,6 +4,9 @@
 #include <SDL2/SDL.h>
 #include "util.h"
 
+#define FPS 30
+#define FRAME_TARGET_TIME (1000 / FPS)
+
 class SdlWindow {
 public:
      SdlWindow()=default;
@@ -24,7 +27,7 @@ private:
     void draw_grid();
     void draw_pixel(int x,int y, uint32_t color);
     void draw_rectangle(uint x,uint y,uint width,uint height,uint32_t color);
-    
+    int previous_frame_time = 0;
     bool m_isRunning = false;
     uint screen_width = 800;
     uint screen_height = 600;

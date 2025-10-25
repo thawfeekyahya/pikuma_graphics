@@ -8,7 +8,7 @@ using namespace std;
 using namespace pikuma::utility;
 
 
-Vector3d cube_rotation(0.0,0.01,0.0);
+Vector3d cube_rotation(0.01,0.01,0.01);
 
 
 void SdlWindow::setup() {
@@ -121,20 +121,28 @@ bool SdlWindow::isRunning() const {
 
 Vector3d camera_pos(0.0,0.0,-5.0);
 
+
 void SdlWindow::update() {
+    while ( !SDL_TICKS_PASSED(SDL_GetTicks(),previous_frame_time + FRAME_TARGET_TIME)); 
+    previous_frame_time = SDL_GetTicks();
+
     cube_rotation.set_y(cube_rotation.get_y() + 0.01);
+    cube_rotation.set_x(cube_rotation.get_x() + 0.01);
+    cube_rotation.set_z(cube_rotation.get_z() + 0.01);
 
+       for (int i=0; i< N_POINTS; i++) {
+           Vector3d point = cube_points[i];
 
+          Vector3d transformed_point = point.rotate_x(cube_rotation.get_x());
+          transformed_point = transformed_point.rotate_y(cube_rotation.get_y());
+          transformed_point = transformed_point.rotate_z(cube_rotation.get_z());
 
+           transformed_point.set_z(transformed_point.get_z() - camera_pos.get_z());
+           Vector2d projected_point = project(transformed_point);
 
-    for (int i=0; i< N_POINTS; i++) {
-        Vector3d point = cube_points[i];
-        Vector3d transformed_point = point.rotate_y(cube_rotation.get_y());
-        transformed_point.set_z(transformed_point.get_z() - camera_pos.get_z());
-        Vector2d projected_point = project(transformed_point);
-
-        projected_points[i] = projected_point;
-    }
+           projected_points[i] = projected_point;
+       }
+    //}
 }
 
 
