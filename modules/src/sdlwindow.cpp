@@ -2,18 +2,19 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
+#include "mesh.h"
+#include <vector>
 #include "util.h"
 
 using namespace std;
 using namespace pikuma::utility;
 
 
+
 void SdlWindow::setup() {
     uint total_len = screen_width * screen_height;
     color_buffer = new uint32_t[total_len];
-    
 }
-
 
 void SdlWindow::populate_dot_array_cube() {
 
@@ -27,6 +28,10 @@ void SdlWindow::populate_dot_array_cube() {
             }
         }
     }
+}
+
+void SdlWindow::populate_cube_vertices() {
+     
 }
 
 Vector2d SdlWindow::project(Vector3d point) {
@@ -136,6 +141,39 @@ void SdlWindow::update() {
     cube_rotation.set_x(cube_rotation.get_x() + 0.01);
     cube_rotation.set_z(cube_rotation.get_z() + 0.01);
 
+
+
+
+    for(int i=0; i<N_MESH_FACES; i++) {
+        Mesh mesh;
+        Face face = mesh.getMeshFaces()[i]; 
+
+        vector<Vector3d> face_vertices{3};
+
+        face_vertices[0] = mesh.getVertices()[face.get_a()-1];
+        face_vertices[1] = mesh.getVertices()[face.get_b()-1];
+        face_vertices[2] = mesh.getVertices()[face.get_c()-1];
+
+
+        Triangle projected_triangle;
+
+        for (int j=0; j<3; j++) {
+            Vector3d transformed_vertex = face_vertices[j];
+
+            transformed_vertex = transformed_vertex.rotate_x(cube_rotation.get_x());
+            transformed_vertex = transformed_vertex.rotate_y(cube_rotation.get_y());
+            transformed_vertex = transformed_vertex.rotate_z(cube_rotation.get_z());
+
+
+           Vector2d projected_point = project(transformed_vertex);
+
+            projected_triangle.points[j] = projected_point;
+        }
+
+        triangles_to_render[i] = projected_triangle;
+     }
+
+    /*
        for (int i=0; i< N_POINTS; i++) {
            Vector3d point = cube_points[i];
 
@@ -148,6 +186,7 @@ void SdlWindow::update() {
 
            projected_points[i] = projected_point;
        }
+    */
 }
 
 
@@ -212,15 +251,18 @@ void SdlWindow::render() {
     //
 
     // --- Phase 2
-    for (int i =0; i< N_POINTS; i++) {
-        Vector2d projected_point = projected_points[i];
-        draw_rectangle(
-          projected_point.get_x() + (screen_width *  0.5), 
-          projected_point.get_y() + (screen_height * 0.5),
-          4,4,
-          0xFFFFFF00
-        );
-    }
+    //for (int i =0; i< N_POINTS; i++) {
+    //    Vector2d projected_point = projected_points[i];
+    //    draw_rectangle(
+    //      projected_point.get_x() + (screen_width *  0.5), 
+    //      projected_point.get_y() + (screen_height * 0.5),
+    //      4,4,
+    //      0xFFFFFF00
+    //    );
+    //}
+
+    // --- Phase 3
+
      
     render_color_buffer();
     clear_color_buffer(0xFF000000);
