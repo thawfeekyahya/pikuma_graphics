@@ -1,6 +1,6 @@
 #include "sdlwindow.h"
 #include "util.h"
-
+#include "example1.h"
 
 using namespace pikuma::utility;
 
@@ -10,10 +10,11 @@ int main() {
     window.initialize();
     window.setup();
 
+    Example* example = new Example1();
+    window.attach(example);
+
     while (window.isRunning()) {
-        window.process_input();
         window.update();
-        window.render();
     }
     return 0;
 }

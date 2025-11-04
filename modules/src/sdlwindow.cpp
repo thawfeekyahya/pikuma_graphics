@@ -1,15 +1,23 @@
 #include "sdlwindow.h"
-
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "mesh.h"
 #include <vector>
 #include "util.h"
+#include "example.h"
 
 using namespace std;
 using namespace pikuma::utility;
 
 
+
+void SdlWindow::attach(Example* example) {
+    m_example = example;
+    m_example->setWindowSize(screen_width,screen_height);
+    m_example->setSDLRenderer(renderer);
+    m_example->setColorBuffer(color_buffer);
+    m_example->setColorBufferTexture(color_buffer_texture);
+}
 
 void SdlWindow::setup() {
     uint total_len = screen_width * screen_height;
@@ -129,7 +137,17 @@ Vector3d camera_pos(0.0,0.0,-5.0);
 
 
 void SdlWindow::update() {
- 
+
+    if (!m_example) {
+        std::cout<<"Example Cannot be Null "<<std::endl;
+        return;
+    }
+
+    process_input();
+    //m_example->process_input();
+    m_example->update();
+    m_example->render();
+    /* 
     int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks()- previous_frame_time);   
     previous_frame_time = SDL_GetTicks();
 
@@ -173,7 +191,7 @@ void SdlWindow::update() {
         triangles_to_render[i] = projected_triangle;
      }
 
-    /*
+   
        for (int i=0; i< N_POINTS; i++) {
            Vector3d point = cube_points[i];
 
