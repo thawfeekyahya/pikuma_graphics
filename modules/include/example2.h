@@ -11,7 +11,7 @@ public:
     void update() override;
     void render() override;
     void process_input() override;
-private:
+protected:
     void draw_pixel(int x,int y, uint32_t color);
     void draw_rectangle(uint x,uint y,uint width,uint height,uint32_t color);
 };
