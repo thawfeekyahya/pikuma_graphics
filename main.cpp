@@ -1,6 +1,7 @@
 #include "sdlwindow.h"
 #include "util.h"
 #include "example1.h"
+#include "example2.h"
 
 using namespace pikuma::utility;
 
@@ -10,7 +11,7 @@ int main() {
     window.initialize();
     window.setup();
 
-    Example* example = new Example1();
+    Example* example = new Example2();
     window.attach(example);
 
     while (window.isRunning()) {
