@@ -55,12 +55,6 @@ SdlWindow::~SdlWindow() {
     destroy_window();
 }
 
-void SdlWindow::draw_pixel(int x,int y, uint32_t color) {
-    if ((x >=0 && x < screen_width) && (y >= 0 && y < screen_height)) {
-        color_buffer[ screen_width * y + x ] = color;
-    }
-}
-
 
 void SdlWindow::destroy_window() {
     delete color_buffer;
@@ -227,16 +221,6 @@ void SdlWindow::process_input() {
 }
 
 
-void SdlWindow::draw_rectangle(uint x,uint y,uint width,uint height,uint32_t color){ 
-
-    for (uint i=0; i < height; i++) {
-        for (uint j=0; j < width; j++) {
-            uint curr_x = x + j;
-            uint curr_y = y + i;
-            draw_pixel(curr_x,curr_y,color);
-        }
-    }
-}
 
 void SdlWindow::clear_color_buffer(uint32_t color) {
     for (uint y=0; y < screen_height; y++) {
@@ -246,18 +230,6 @@ void SdlWindow::clear_color_buffer(uint32_t color) {
     }
 }
 
-void SdlWindow::draw_grid() {
-    int rowSize = 10;
-    int colSize = 10;
-
-    for (int y=0; y< screen_height; y++ ) {
-        for (int x=0; x < screen_width; x++) {
-             if ( x % rowSize == 0 || y % colSize == 0) {
-                color_buffer[(screen_width * y) +x ] = 0xFFFF0000;
-            }
-        }
-    }
-}
 
 void SdlWindow::render() {
     // --- Phase 1

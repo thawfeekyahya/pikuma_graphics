@@ -31,9 +31,6 @@ private:
     void render_color_buffer();
     void populate_dot_array_cube();
     void populate_cube_vertices();
-    void draw_grid();
-    void draw_pixel(int x,int y, uint32_t color);
-    void draw_rectangle(uint x,uint y,uint width,uint height,uint32_t color);
     int previous_frame_time = 0;
 
     bool m_isRunning = false;
