@@ -4,6 +4,9 @@
 Example::Example() = default;
 Example::~Example() = default; 
 
+void Example::initialize() {
+}
+
 void Example::setWindowSize(int width,int height) {
    screen_width = width;
    screen_height = height;

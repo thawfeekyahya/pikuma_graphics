@@ -4,10 +4,6 @@
 
 Example2::Example2() {}
 
-void Example2::initialize() {
-   std::cout<<"Initialize Example 2"<<std::endl;
-}
-
 void Example2::update() {
     draw_rectangle(40,70,30,30,0xFF0000FF);
 }

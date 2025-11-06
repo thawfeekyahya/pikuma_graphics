@@ -6,8 +6,11 @@
 using namespace std;
 using namespace pikuma::utility;
 
+Example3::Example3() {
+    initialize();
+}
+
 void Example3::initialize() {
-   std::cout<<"Initialize Example 3"<<std::endl;
    populate_dot_array_cube();
 }
 
@@ -26,12 +29,55 @@ void Example3::populate_dot_array_cube() {
 }
 
 void Example3::update() {
-    
+   
+    int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks()- previous_frame_time);   
+    previous_frame_time = SDL_GetTicks();
+
+
+    //Save CPU cycles by delaying update as per frame rate
+    if (time_to_wait > 0 && time_to_wait <= FRAME_TARGET_TIME) {
+        SDL_Delay(time_to_wait);
+    }
+
+    //Rotation
+    cube_rotation.set_y(cube_rotation.get_y() + 0.01);
+    cube_rotation.set_x(cube_rotation.get_x() + 0.01);
+    cube_rotation.set_z(cube_rotation.get_z() + 0.01);
+
+    for (int i=0; i< N_POINTS; i++) {
+        Vector3d point = cube_points[i];
+
+        
+        Vector3d transformed_point = point.rotate_x(cube_rotation.get_x());
+        transformed_point = transformed_point.rotate_y(cube_rotation.get_y());
+        transformed_point = transformed_point.rotate_z(cube_rotation.get_z());
+        //
+
+        //Push camera after rotation
+        transformed_point.set_z(transformed_point.get_z() - camera_pos.get_z());
+
+        //Push camera with orignal points (before tranformation) 
+        //point.set_z(point.get_z() - camera_pos.get_z());
+        //Vector2d projected_point = project(point);
+
+        Vector2d projected_point = project(transformed_point);
+        projected_points[i] = projected_point;
+    }
 }
 
 void Example3::render() {
     setup_render();    
 
+
+    for (int i =0; i< N_POINTS; i++) {
+        Vector2d projected_point = projected_points[i];
+        draw_rectangle(
+          projected_point.get_x() + (screen_width * 0.5), 
+          projected_point.get_y()+ (screen_height * 0.5),
+          4,4,
+          0xFFFFFF00
+        );
+    }
 
     clear_render();
 }
@@ -43,6 +89,11 @@ void Example3::process_input() {
 
 Vector2d Example3::project(Vector3d point) {
     float fov_factor = 640;
+
+    //Orthognal Project
+    //Vector2d projected_point(point.get_x() * fov_factor,point.get_y()*fov_factor);
+    //
+    //Perspective Project
     Vector2d projected_point(
                              fov_factor * point.get_x() / point.get_z(),
                              fov_factor * point.get_y() / point.get_z()

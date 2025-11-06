@@ -8,7 +8,7 @@ class Example {
 public:
     Example();
     virtual ~Example();
-    virtual void initialize() = 0;
+    virtual void initialize();
     virtual void update() = 0;
     virtual void render() = 0;
     virtual void process_input()=0;

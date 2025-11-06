@@ -7,7 +7,6 @@
 class Example2 : public Example {
 public:
     Example2();
-    void initialize() override;
     void update() override;
     void render() override;
     void process_input() override;

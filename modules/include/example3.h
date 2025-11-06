@@ -7,13 +7,14 @@
 
 class Example3 : public Example2 {
 public:
-    Example3() = default;
+    Example3();
     void initialize()override ;
     void update() override;
     void render() override;
     void process_input() override;
 private:
     static constexpr int N_POINTS = 9*9*9;
+    int previous_frame_time = 0;
 
     pikuma::utility::Vector3d cube_points[N_POINTS];
     pikuma::utility::Vector2d projected_points[N_POINTS];
