@@ -7,7 +7,6 @@ using namespace std;
 using namespace pikuma::utility;
 
 Example3::Example3() {
-    Example3::initialize();
 }
 
 void Example3::initialize() {

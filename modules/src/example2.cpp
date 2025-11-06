@@ -3,7 +3,6 @@
 #include <SDL2/SDL.h>
 
 Example2::Example2() {
-   initialize();
 }
 
 void Example2::update() {
