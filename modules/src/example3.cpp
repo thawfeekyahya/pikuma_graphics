@@ -7,10 +7,11 @@ using namespace std;
 using namespace pikuma::utility;
 
 Example3::Example3() {
-    initialize();
+    Example3::initialize();
 }
 
 void Example3::initialize() {
+   std::cout<<"Example3 - Plot 9x9x9 Cubes and rotate along x y and z"<<std::endl;
    populate_dot_array_cube();
 }
 

@@ -18,7 +18,7 @@ void Example2::render() {
 }
 
 void Example2::initialize() {
-   std::cout<<"Draw Rectangle using Draw Pixel"<<std::endl;
+   std::cout<<"Example2 - Draw Rectangle using Draw Pixel"<<std::endl;
 }
 
 void Example2::process_input() {

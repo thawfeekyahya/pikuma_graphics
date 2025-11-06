@@ -7,7 +7,7 @@ Example1::Example1() {
 }
 
 void Example1::initialize() {
-   std::cout<<"Simple Grid rendering "<<std::endl;
+   std::cout<<"Example1 - Simple Grid rendering "<<std::endl;
 }
 
 void Example1::update() {

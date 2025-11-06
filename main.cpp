@@ -13,6 +13,7 @@ int main() {
     window.setup();
 
     Example* example = new Example3();
+    example->initialize();
     window.attach(example);
 
     while (window.isRunning()) {
