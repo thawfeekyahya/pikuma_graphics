@@ -2,8 +2,12 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
+Example1::Example1() {
+    initialize();
+}
+
 void Example1::initialize() {
-   std::cout<<"Initialize Example 1"<<std::endl;
+   std::cout<<"Simple Grid rendering "<<std::endl;
 }
 
 void Example1::update() {

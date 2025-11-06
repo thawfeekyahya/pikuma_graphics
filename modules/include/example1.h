@@ -4,7 +4,7 @@
 
 class Example1 : public Example {
 public:
-    Example1() = default;
+    Example1();
     void initialize() override;
     void update() override;
     void render() override;

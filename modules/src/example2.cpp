@@ -2,7 +2,9 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-Example2::Example2() {}
+Example2::Example2() {
+   initialize();
+}
 
 void Example2::update() {
     draw_rectangle(40,70,30,30,0xFF0000FF);
@@ -15,8 +17,9 @@ void Example2::render() {
     clear_render();
 }
 
-
-
+void Example2::initialize() {
+   std::cout<<"Draw Rectangle using Draw Pixel"<<std::endl;
+}
 
 void Example2::process_input() {
    std::cout<<"process_input Example 2"<<std::endl;
