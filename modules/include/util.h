@@ -3,6 +3,10 @@
 #include <iostream>
 
 namespace pikuma::utility {
+    
+   struct Face {
+      int a,b,c;
+   };
 
    class Vector2d {
        public:

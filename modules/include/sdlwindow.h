@@ -3,7 +3,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "util.h"
-#include "triangle.h"
 #include "example.h"
 #include "mesh.h"
 
@@ -45,7 +44,6 @@ private:
     pikuma::utility::Vector2d projected_points[N_POINTS];
     pikuma::utility::Vector3d cube_rotation{0.01,0.01,0.01};
 
-    std::vector<Triangle> triangles_to_render{N_MESH_VERTICES};
 
     Example* m_example = nullptr;
 
