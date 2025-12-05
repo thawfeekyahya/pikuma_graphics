@@ -1,10 +1,12 @@
 #pragma once
+#include <array>
 
 #include <iostream>
 
 namespace pikuma::utility {
     
-   struct Face {
+   class Face {
+      public:
       int a,b,c;
    };
 
@@ -57,5 +59,11 @@ namespace pikuma::utility {
          Vector3d rotation;
          float fov; // Field of view
 
+   };
+
+   class Triangle {
+      public:
+          Triangle() = default;
+          std::array<Vector2d,3> points;
    };
 }

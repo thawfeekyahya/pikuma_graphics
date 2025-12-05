@@ -30,14 +30,6 @@ void Example3::populate_dot_array_cube() {
 
 void Example3::update() {
    
-    int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks()- previous_frame_time);   
-    previous_frame_time = SDL_GetTicks();
-
-
-    //Save CPU cycles by delaying update as per frame rate
-    if (time_to_wait > 0 && time_to_wait <= FRAME_TARGET_TIME) {
-        SDL_Delay(time_to_wait);
-    }
 
     //Rotation
     cube_rotation.set_y(cube_rotation.get_y() + 0.01);
@@ -77,6 +69,7 @@ void Example3::render() {
           4,4,
           0xFFFFFF00
         );
+
     }
 
     clear_render();
