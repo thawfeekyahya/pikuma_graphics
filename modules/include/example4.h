@@ -50,5 +50,9 @@ private:
     pikuma::utility::Vector3d camera_pos{0.0,0.0,-5.0};
     pikuma::utility::Vector3d cube_rotation{0.01,0.01,0.01};
     std::array<pikuma::utility::Triangle,MESH_FACES> triangles_to_render;
+
+protected:
+    void draw_line(int x0,int x1,int y0,int y1,uint32_t color);
+    void draw_triangle(int x0,int y0,int x1,int y1,int x2, int y2,uint32_t color);
 };
 

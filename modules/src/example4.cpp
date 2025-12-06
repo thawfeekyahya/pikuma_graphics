@@ -2,7 +2,7 @@
 #include "example4.h"
 #include <iostream>
 #include "util.h"
-
+#include <cmath>
 
 using namespace std;
 using namespace pikuma::utility;
@@ -12,9 +12,29 @@ void Example4::initialize() {
 
 
 Example4::Example4() {
-   std::cout<<"Example4 - Draw vertex and triangles"<<std::endl;
+   std::cout<<"Example4 - Draw vertex and triangles with Edges"<<std::endl;
 }
 
+
+void Example4::draw_line(int x0,int y0,int x1,int y1,uint32_t color) {
+    int delta_x = x1 - x0;
+    int delta_y = y1 - y0;
+
+    int longest_side_length = std::abs(delta_x) > std::abs(delta_y) ? std::abs(delta_x) : std::abs(delta_y);
+
+    float x_incr = delta_x / static_cast<float>(longest_side_length);
+    float y_incr = delta_y / static_cast<float>(longest_side_length);
+
+    float curr_x = x0;
+    float curr_y = y0;
+
+    for(int i=0; i<= longest_side_length; i++) {
+        draw_pixel(std::round(curr_x),std::round(curr_y),color);
+        curr_x += x_incr;
+        curr_y += y_incr;
+    }
+
+}
 
 void Example4::update() {
 
@@ -53,21 +73,31 @@ void Example4::update() {
             projected_triangle.points[j] = projected_point;
         }
         
-
         triangles_to_render[i] = projected_triangle;
 
     }
 }
 
+void Example4::draw_triangle(int x0,int y0,int x1,int y1,int x2, int y2,uint32_t color) {
+    draw_line(x0,y0,x1,y1,color);
+    draw_line(x1,y1,x2,y2,color);
+    draw_line(x2,y2,x0,y0,color);
+}
+
+
 void Example4::render() {
     setup_render();
 
-    for (int i=0; i< MESH_FACES; i++) {
-       Triangle triangle = triangles_to_render[i];
-        draw_rectangle( triangle.points[0].get_x(),triangle.points[0].get_y(), 3,3,0xFFFFFF00);
-        draw_rectangle( triangle.points[1].get_x(),triangle.points[1].get_y(), 3,3,0xFFFFFF00);
-        draw_rectangle( triangle.points[2].get_x(),triangle.points[2].get_y(), 3,3,0xFFFFFF00);
+    uint32_t color = 0xFFFFFF00;
 
+    for (int i=0; i< MESH_FACES; i++) {
+
+       Triangle triangle = triangles_to_render[i];
+
+        draw_triangle(triangle.points[0].get_x(),triangle.points[0].get_y(),
+                      triangle.points[1].get_x(),triangle.points[1].get_y(),
+                      triangle.points[2].get_x(),triangle.points[2].get_y(),
+                      color);
     }
 
     clear_render();
