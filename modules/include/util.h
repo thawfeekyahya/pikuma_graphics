@@ -2,6 +2,8 @@
 #include <array>
 
 #include <iostream>
+#include <vector>
+
 
 namespace pikuma::utility {
     
@@ -65,5 +67,15 @@ namespace pikuma::utility {
       public:
           Triangle() = default;
           std::array<Vector2d,3> points;
+   };
+
+   class Mesh {
+      public:
+        Mesh() = default;
+
+        std::vector<Vector3d> vertices;
+        std::vector<Face> faces;
+
+        Vector3d rotation;
    };
 }

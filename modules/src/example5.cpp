@@ -1,5 +1,5 @@
 #include <array>
-#include "example4.h"
+#include "example5.h"
 #include <iostream>
 #include "util.h"
 #include <cmath>
@@ -7,17 +7,18 @@
 using namespace std;
 using namespace pikuma::utility;
 
-void Example4::initialize() {
+void Example5::initialize() {
 }
 
 
-Example4::Example4() {
-   triangles_to_render.resize(CUBE_FACES); 
-   std::cout<<"Example4 - Draw vertex and triangles with Edges"<<std::endl;
+Example5::Example5() {
+   triangles_to_render.resize(CUBE_FACES);
+   loadCubeMesData();
+   std::cout<<"Example5 - Re-factor example 4"<<std::endl;
 }
 
 
-void Example4::draw_line(int x0,int y0,int x1,int y1,uint32_t color) {
+void Example5::draw_line(int x0,int y0,int x1,int y1,uint32_t color) {
     int delta_x = x1 - x0;
     int delta_y = y1 - y0;
 
@@ -37,20 +38,22 @@ void Example4::draw_line(int x0,int y0,int x1,int y1,uint32_t color) {
 
 }
 
-void Example4::update() {
+void Example5::update() {
 
     cube_rotation.set_y(cube_rotation.get_y() + 0.01);
     cube_rotation.set_x(cube_rotation.get_x() + 0.01);
     cube_rotation.set_z(cube_rotation.get_z() + 0.01);
 
-    for(int i=0;i<CUBE_FACES; i++) {
-        Face cube_face = cube_faces[i];
+    int len = cube_mesh.faces.size();
+    for(int i=0;i<len; i++) {
+
+        Face cube_face = cube_mesh.faces[i];
 
         array<Vector3d,3> face_vertices;
 
-        face_vertices[0] = cube_vertices[cube_face.a-1];
-        face_vertices[1] = cube_vertices[cube_face.b-1];
-        face_vertices[2] = cube_vertices[cube_face.c-1];
+        face_vertices[0] = cube_mesh.vertices[cube_face.a-1];
+        face_vertices[1] = cube_mesh.vertices[cube_face.b-1];
+        face_vertices[2] = cube_mesh.vertices[cube_face.c-1];
 
         Triangle projected_triangle;
 
@@ -61,8 +64,8 @@ void Example4::update() {
             transformed_vertex = transformed_vertex.rotate_y(cube_rotation.get_y());
             transformed_vertex = transformed_vertex.rotate_z(cube_rotation.get_z());
 
-            //Translate the vertex away from Camera 
-            transformed_vertex.set_z( transformed_vertex.get_z() - camera_pos.get_z()); 
+            //Translate the vertex away from Camera
+            transformed_vertex.set_z( transformed_vertex.get_z() - camera_pos.get_z());
 
             //Project current vertex
             Vector2d projected_point = Example3::project(transformed_vertex);
@@ -73,20 +76,20 @@ void Example4::update() {
 
             projected_triangle.points[j] = projected_point;
         }
-        
+
         triangles_to_render[i] = projected_triangle;
 
     }
 }
 
-void Example4::draw_triangle(int x0,int y0,int x1,int y1,int x2, int y2,uint32_t color) {
+void Example5::draw_triangle(int x0,int y0,int x1,int y1,int x2, int y2,uint32_t color) {
     draw_line(x0,y0,x1,y1,color);
     draw_line(x1,y1,x2,y2,color);
     draw_line(x2,y2,x0,y0,color);
 }
 
 
-void Example4::render() {
+void Example5::render() {
     setup_render();
 
     uint32_t color = 0xFFFFFF00;
@@ -104,6 +107,22 @@ void Example4::render() {
     clear_render();
 }
 
+void Example5::loadCubeMesData() {
 
-void Example4::process_input() {
+   cube_mesh.vertices.clear();
+   cube_mesh.faces.clear();
+
+    for(int i=0; i< CUBE_VERTICES; i++) {
+        Vector3d cube_vertex = cube_vertices[i];
+        cube_mesh.vertices.push_back(cube_vertex);
+    }
+
+    for(int i=0; i< CUBE_FACES; i++) {
+        Face cube_face = cube_faces[i];
+        cube_mesh.faces.push_back(cube_face);
+    }
+}
+
+
+void Example5::process_input() {
 }

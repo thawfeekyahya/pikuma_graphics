@@ -1,7 +1,10 @@
 #include "util.h"
 #include <cmath>
+#include <vector>
+
 
 using namespace pikuma::utility;
+using namespace std;
 
 Vector2d::Vector2d():x(0.0),y(0.0) {
 }

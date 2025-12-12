@@ -4,9 +4,9 @@
 #include "util.h"
 #include <vector>
 
-class Example4: public Example3 {
+class Example5: public Example3 {
 public:
-    Example4();
+    Example5();
     void initialize() override;
     void update() override;
     void render() override;
@@ -16,14 +16,14 @@ public:
     static constexpr int CUBE_FACES=6*2;
 
     std::array<pikuma::utility::Vector3d,CUBE_VERTICES> cube_vertices = {{
-        {-1,-1,-1},        
-        {-1, 1,-1},        
-        {1 , 1,-1},        
-        {1 ,-1,-1},        
-        {1 , 1, 1},        
-        {1 ,-1, 1},        
-        {-1, 1, 1},        
-        {-1,-1, 1}        
+        {-1,-1,-1},
+        {-1, 1,-1},
+        {1 , 1,-1},
+        {1 ,-1,-1},
+        {1 , 1, 1},
+        {1 ,-1, 1},
+        {-1, 1, 1},
+        {-1,-1, 1}
     }};
 
     std::array<pikuma::utility::Face,CUBE_FACES> cube_faces = {{
@@ -50,6 +50,10 @@ private:
     pikuma::utility::Vector3d camera_pos{0.0,0.0,-5.0};
     pikuma::utility::Vector3d cube_rotation{0.01,0.01,0.01};
     std::vector<pikuma::utility::Triangle> triangles_to_render;
+
+    //----Example -5
+    pikuma::utility::Mesh cube_mesh;
+    void loadCubeMesData();
 
 
 protected:
