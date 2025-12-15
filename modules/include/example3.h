@@ -22,4 +22,5 @@ protected:
     pikuma::utility::Vector2d project(pikuma::utility::Vector3d point);
     pikuma::utility::Vector3d cube_rotation{0.01,0.01,0.01};
     pikuma::utility::Vector3d camera_pos{0.0,0.0,-5.0};
+    float fov_factor = 640;
 };

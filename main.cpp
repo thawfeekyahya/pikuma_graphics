@@ -5,6 +5,7 @@
 #include "example3.h"
 #include "example4.h"
 #include "example5.h"
+#include "example6.h"
 
 using namespace pikuma::utility;
 
@@ -14,7 +15,7 @@ int main() {
     window.initialize();
     window.setup();
 
-    Example* example = new Example5();
+    Example* example = new Example6();
     example->initialize();
     window.attach(example);
 
