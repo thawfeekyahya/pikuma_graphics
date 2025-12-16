@@ -16,11 +16,11 @@ void Example6::initialize() {
 
 
 Example6::Example6() {
-   triangles_to_render.resize(CUBE_FACES);
-   load_obj_data("./assets/cube.obj");
-   //load_obj_data("./assets/plane.obj");
+   //load_obj_data("./assets/cube.obj");
+   triangles_to_render.resize(1000); // NOTE: Harcoded // assuming vertices count is under 1000
+   load_obj_data("./assets/plane.obj");
    std::cout<<"Example6 - Re-factor example 4"<<std::endl;
-   //fov_factor= 328;
+   fov_factor= 400;
 }
 
 
@@ -45,9 +45,11 @@ void Example6::draw_line(int x0,int y0,int x1,int y1,uint32_t color) {
 
 void Example6::update() {
 
-    cube_rotation.set_y(cube_rotation.get_y() + 0.01);
+    //cube_rotation.set_y(cube_rotation.get_y() + 0.01);
     cube_rotation.set_x(cube_rotation.get_x() + 0.01);
-    cube_rotation.set_z(cube_rotation.get_z() + 0.01);
+    //cube_rotation.set_z(cube_rotation.get_z() + 0.01);
+
+    //triangles_to_render.clear();
 
     int len = cube_mesh.faces.size();
     for(int i=0;i<len; i++) {
@@ -70,10 +72,10 @@ void Example6::update() {
             transformed_vertex = transformed_vertex.rotate_z(cube_rotation.get_z());
 
             //Translate the vertex away from Camera
-            transformed_vertex.set_z( transformed_vertex.get_z() - camera_pos.get_z());
+            transformed_vertex.set_z(transformed_vertex.get_z() - camera_pos.get_z()-20);
 
             //Project current vertex
-            Vector2d projected_point = Example3::project(transformed_vertex);
+            Vector2d projected_point = project(transformed_vertex);
 
             //Scale and translate to middle of the scren
             projected_point.set_x(projected_point.get_x() + screen_width/2);
@@ -81,6 +83,7 @@ void Example6::update() {
 
             projected_triangle.points[j] = projected_point;
         }
+
         triangles_to_render[i] = projected_triangle;
     }
 }

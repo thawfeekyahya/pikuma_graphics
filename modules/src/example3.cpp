@@ -81,7 +81,6 @@ void Example3::process_input() {
 
 
 Vector2d Example3::project(Vector3d point) {
-    float fov_factor = 640;
 
     //Orthognal Project
     //Vector2d projected_point(point.get_x() * fov_factor,point.get_y()*fov_factor);
