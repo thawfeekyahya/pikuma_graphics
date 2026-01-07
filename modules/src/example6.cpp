@@ -93,6 +93,7 @@ void Example6::update() {
 
         //Find face normal
         Vector3d normal = vec_ab * vec_ac;
+        normal.normalize();
         
         //Find vector of camera to the the object point
         Vector3d camera_ray = camera_pos - vec_a;

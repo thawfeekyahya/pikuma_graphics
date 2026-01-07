@@ -59,7 +59,12 @@ Vector2d Vector2d::operator/(float scalar) const {
 float Vector2d::dot(const Vector2d& other) {
     return x*other.x + y*other.y;
 }
- 
+
+void Vector2d::normalize() {
+    float len = get_length();
+    x /= len;
+    y /= len;
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Vector 3d
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -163,6 +168,13 @@ Vector3d Vector3d::operator/(float scalar) const {
 
 float Vector3d::dot(const Vector3d& other) {
     return x * other.x + y * other.y + z * other.z;
+}
+
+void Vector3d::normalize() {
+    float len = get_length();
+    x /= len;
+    y /= len;
+    z /= len;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
