@@ -7,10 +7,18 @@
 
 namespace pikuma::utility {
     
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Face 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
    class Face {
       public:
       int a,b,c;
    };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Vector 2d
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
    class Vector2d {
        public:
@@ -22,10 +30,25 @@ namespace pikuma::utility {
 
           float get_x() const { return x; };
           float get_y() const { return y; };
+
+          float get_length();
+
+          Vector2d operator+(const Vector2d& other) ;
+          Vector2d operator-(const Vector2d& other) ;
+
+          Vector2d operator*(float scalar) const;
+          Vector2d operator/(float scalar) const;
+
+          float dot(const Vector2d& other);
+
        private:
           float x=0.0;
           float y=0.0;
    };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Vector 3d
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
    class Vector3d {
        public:
@@ -38,6 +61,8 @@ namespace pikuma::utility {
           Vector3d rotate_y(float _angle);
           Vector3d rotate_z(float _angle);
 
+          float get_length();
+
           void set_x(float p_x) { x = p_x; }
           void set_y(float p_y) { y = p_y; }
           void set_z(float p_z) { z = p_z; }
@@ -46,12 +71,26 @@ namespace pikuma::utility {
           float get_y() const { return y; };
           float get_z() const { return z; };
           
+          Vector3d operator+(const Vector3d& other) ;
+          Vector3d operator-(const Vector3d& other) ;
+
+          Vector3d operator*(float scalar) const;
+          Vector3d operator/(float scalar) const;
+
+          Vector3d operator*(const Vector3d& other) const;
+          
+          float dot(const Vector3d& other);
+
        private:
            float x=0.0;
            float y=0.0;
            float z=0.0;
    };
    
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Camera 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
    class Camera {
       public:
          Camera();
@@ -63,11 +102,19 @@ namespace pikuma::utility {
 
    };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Triangle 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
    class Triangle {
       public:
           Triangle() = default;
           std::array<Vector2d,3> points;
    };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Mesh 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
    class Mesh {
       public:

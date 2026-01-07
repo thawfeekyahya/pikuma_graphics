@@ -17,7 +17,7 @@ public:
     static constexpr int CUBE_FACES=6*2;
 
 private:
-    pikuma::utility::Vector3d camera_pos{0.0,0.0,-5.0};
+    pikuma::utility::Vector3d camera_pos{0.0,0.0,0.0};
     pikuma::utility::Vector3d cube_rotation{0.01,0.01,0.01};
     std::vector<pikuma::utility::Triangle> triangles_to_render;
 

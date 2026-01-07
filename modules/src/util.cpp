@@ -6,6 +6,10 @@
 using namespace pikuma::utility;
 using namespace std;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Vector 2d
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 Vector2d::Vector2d():x(0.0),y(0.0) {
 }
 
@@ -14,6 +18,67 @@ Vector2d::Vector2d(float p_x,float p_y) {
     y = p_y;
 }
 
+
+float Vector2d::get_length(){
+    return std::sqrt(x*x + y*y);
+}
+
+float Vector3d::get_length(){
+    return std::sqrt(x*x + y*y + z*z);
+}
+
+Vector2d Vector2d::operator+(const Vector2d& other) {
+    return {
+        x + other.x ,
+        y + other.y
+    };
+}
+
+Vector2d Vector2d::operator-(const Vector2d& other) {
+    return {
+        x - other.x ,
+        y - other.y
+    };
+}
+
+Vector2d Vector2d::operator*(float scalar) const {
+    return {
+        x * scalar,
+        y * scalar
+    };
+}
+
+Vector2d Vector2d::operator/(float scalar) const {
+    return {
+        x / scalar,
+        y / scalar
+    };
+}
+
+
+float Vector2d::dot(const Vector2d& other) {
+    return x*other.x + y*other.y;
+}
+ 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Vector 3d
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Vector3d Vector3d::operator-(const Vector3d& other) {
+    return {
+        x - other.x ,
+        y - other.y,
+        z - other.z
+    };
+}
+
+Vector3d Vector3d::operator+(const Vector3d& other) {
+    return {
+        x + other.x ,
+        y + other.y ,
+        z + other.z
+    };
+}
 
 Vector3d Vector3d::rotate_x(float angle) {
 
@@ -70,6 +135,39 @@ Vector3d& Vector3d::operator=(const Vector3d& other) {
     }
     return *this;
 }
+
+Vector3d Vector3d::operator*(float scalar) const {
+    return {
+        x * scalar,
+        y * scalar,
+        z * scalar
+    };
+}
+
+
+Vector3d Vector3d::operator*(const Vector3d& other) const {
+    return {
+        y * other.z - z * other.y,
+        z * other.x - x * other.z,
+        x * other.y - y * other.x
+    };
+}
+
+Vector3d Vector3d::operator/(float scalar) const {
+    return {
+        x / scalar,
+        y / scalar,
+        z / scalar
+    };
+}
+
+float Vector3d::dot(const Vector3d& other) {
+    return x * other.x + y * other.y + z * other.z;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Camera
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Camera::Camera() {
 
