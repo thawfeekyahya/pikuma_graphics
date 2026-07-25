@@ -83,13 +83,13 @@ void Example3::process_input() {
 Vector2d Example3::project(Vector3d point) {
 
     //Orthognal Project
-    //Vector2d projected_point(point.get_x() * fov_factor,point.get_y()*fov_factor);
-    //
+    Vector2d projected_point(point.get_x() * fov_factor,point.get_y()*fov_factor);
+    
     //Perspective Project
-    Vector2d projected_point(
-                             fov_factor * point.get_x() / point.get_z(),
-                             fov_factor * point.get_y() / point.get_z()
-                             );
+    //Vector2d projected_point(
+    //                         fov_factor * point.get_x() / point.get_z(),
+    //                         fov_factor * point.get_y() / point.get_z()
+    //                         );
     return projected_point;
 }
 

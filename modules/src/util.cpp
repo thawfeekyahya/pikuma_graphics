@@ -1,6 +1,8 @@
 #include "util.h"
 #include <cmath>
 #include <vector>
+#include <array>
+#include <algorithm>
 
 
 using namespace pikuma::utility;
@@ -190,6 +192,28 @@ Camera::Camera(Vector3d& p_position,Vector3d& p_rotation, float p_fov):
    rotation(p_rotation),
    fov(p_fov)
 {
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Triangle
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Triangle::fill(uint32_t color) {
+    std:array<Vector2d,3> copy = points;
+    std::sort(copy.begin(),copy.end(),[](
+                                const Vector2d& a,const Vector2d& b) {
+                                    return a.get_y() > b.get_y();
+                                });
+    int My = copy[1].get_y();
+    int Mx = ((copy[2].get_x()-copy[0].get_x() * copy[1].get_y() - copy[0].get_y()) / (copy[2].get_y() - copy[0].get_y())) + copy[0].get_x();
+   
+    fill_flat_bottom_triangle(copy[0],copy[1],Mx,My,0xFF000000);
+
+    //fill_flat_top_triangle(copy[1],Mx,My,copy[2]);
+}
+
+void Triangle::fill_flat_bottom_triangle(Vector2d a,Vector2d b,int Mx,int My,uint32_t color) {
+    
 }
 
 

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cstdint>
 
 
 namespace pikuma::utility {
@@ -41,7 +42,9 @@ namespace pikuma::utility {
 
           float dot(const Vector2d& other);
 
-       private:
+          void normalize();
+
+       //private:
           float x=0.0;
           float y=0.0;
    };
@@ -81,7 +84,9 @@ namespace pikuma::utility {
           
           float dot(const Vector3d& other);
 
-       private:
+          void normalize();
+
+       //private:
            float x=0.0;
            float y=0.0;
            float z=0.0;
@@ -95,7 +100,7 @@ namespace pikuma::utility {
       public:
          Camera();
          Camera(Vector3d& p_position,Vector3d& p_rotation,float p_fov);
-      private:
+      //private:
          Vector3d position;
          Vector3d rotation;
          float fov; // Field of view
@@ -110,6 +115,8 @@ namespace pikuma::utility {
       public:
           Triangle() = default;
           std::array<Vector2d,3> points;
+          void fill(uint32_t color);
+          void fill_flat_bottom_triangle(Vector2d a,Vector2d b,int Mx,int My,uint32_t color);
    };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
