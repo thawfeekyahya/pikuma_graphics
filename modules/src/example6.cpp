@@ -17,8 +17,8 @@ void Example6::initialize() {
 
 Example6::Example6() {
    //load_obj_data("./assets/cube.obj");
-   triangles_to_render.resize(1000); // NOTE: Harcoded // assuming vertices count is under 1000
-   load_obj_data("./assets/cube.obj");
+   triangles_to_render.resize(100000); // NOTE: Harcoded // assuming vertices count is under 1000
+   load_obj_data("./assets/Car.obj");
    std::cout<<"Example6 - Re-factor example 4"<<std::endl;
    fov_factor= 400;
 }
@@ -29,6 +29,11 @@ void Example6::draw_line(int x0,int y0,int x1,int y1,uint32_t color) {
     int delta_y = y1 - y0;
 
     int longest_side_length = std::abs(delta_x) > std::abs(delta_y) ? std::abs(delta_x) : std::abs(delta_y);
+
+    if (longest_side_length == 0) {
+        draw_pixel(x0, y0, color);
+        return;
+    }
 
     float x_incr = delta_x / static_cast<float>(longest_side_length);
     float y_incr = delta_y / static_cast<float>(longest_side_length);
@@ -46,21 +51,21 @@ void Example6::draw_line(int x0,int y0,int x1,int y1,uint32_t color) {
 void Example6::update() {
 
     cube_rotation.set_y(cube_rotation.get_y() + 0.01);
-    cube_rotation.set_x(cube_rotation.get_x() + 0.01);
-    cube_rotation.set_z(cube_rotation.get_z() + 0.01);
+    //cube_rotation.set_x(cube_rotation.get_x() + 0.01);
+    //cube_rotation.set_z(cube_rotation.get_z() + 0.01);
 
     triangles_to_render.clear();
 
-    int len = cube_mesh.faces.size();
+    int len = mesh.faces.size();
     for(int i=0;i<len; i++) {
 
-        Face cube_face = cube_mesh.faces[i];
+        Face cube_face = mesh.faces[i];
 
         array<Vector3d,3> face_vertices;
 
-        face_vertices[0] = cube_mesh.vertices[cube_face.a-1];
-        face_vertices[1] = cube_mesh.vertices[cube_face.b-1];
-        face_vertices[2] = cube_mesh.vertices[cube_face.c-1];
+        face_vertices[0] = mesh.vertices[cube_face.a-1];
+        face_vertices[1] = mesh.vertices[cube_face.b-1];
+        face_vertices[2] = mesh.vertices[cube_face.c-1];
 
         Triangle projected_triangle;
 
@@ -76,7 +81,7 @@ void Example6::update() {
 
             //Translate the vertex away from Camera
             // Hardcode the camera position for z , since camera's dot product needs to be calcuated for culling
-            transformed_vertex.set_z(transformed_vertex.get_z() + 5);
+            transformed_vertex.set_z(transformed_vertex.get_z() + 8.0);
 
             transformed_vertices[j] = transformed_vertex;
         } 
@@ -149,8 +154,8 @@ void Example6::render() {
 }
 
 void Example6::load_obj_data(const string& filename) {
-    cube_mesh.vertices.clear();
-    cube_mesh.faces.clear();
+    mesh.vertices.clear();
+    mesh.faces.clear();
 
     ifstream file(filename);
 
@@ -178,7 +183,7 @@ void Example6::load_obj_data(const string& filename) {
             cube_vertex.set_y(y);
             cube_vertex.set_z(z);
 
-            cube_mesh.vertices.push_back(cube_vertex);
+            mesh.vertices.push_back(cube_vertex);
 
 
         } else if ( type == "f" ) {
@@ -220,7 +225,7 @@ void Example6::load_obj_data(const string& filename) {
             cube_face.a = v_indices[0];
             cube_face.b = v_indices[1];
             cube_face.c = v_indices[2];
-            cube_mesh.faces.push_back(cube_face);
+            mesh.faces.push_back(cube_face);
         }
     }
 

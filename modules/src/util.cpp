@@ -12,31 +12,22 @@ using namespace std;
 /// Vector 2d
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Vector2d::Vector2d():x(0.0),y(0.0) {
-}
-
-Vector2d::Vector2d(float p_x,float p_y) {
-    x = p_x;
-    y = p_y;
-}
-
-
-float Vector2d::get_length(){
+float Vector2d::get_length() const {
     return std::sqrt(x*x + y*y);
 }
 
-float Vector3d::get_length(){
+float Vector3d::get_length() const {
     return std::sqrt(x*x + y*y + z*z);
 }
 
-Vector2d Vector2d::operator+(const Vector2d& other) {
+Vector2d Vector2d::operator+(const Vector2d& other) const {
     return {
         x + other.x ,
         y + other.y
     };
 }
 
-Vector2d Vector2d::operator-(const Vector2d& other) {
+Vector2d Vector2d::operator-(const Vector2d& other) const {
     return {
         x - other.x ,
         y - other.y
@@ -58,12 +49,15 @@ Vector2d Vector2d::operator/(float scalar) const {
 }
 
 
-float Vector2d::dot(const Vector2d& other) {
+float Vector2d::dot(const Vector2d& other) const {
     return x*other.x + y*other.y;
 }
 
 void Vector2d::normalize() {
     float len = get_length();
+    if (len == 0.0f) {
+        return;
+    }
     x /= len;
     y /= len;
 }
@@ -71,7 +65,7 @@ void Vector2d::normalize() {
 /// Vector 3d
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Vector3d Vector3d::operator-(const Vector3d& other) {
+Vector3d Vector3d::operator-(const Vector3d& other) const {
     return {
         x - other.x ,
         y - other.y,
@@ -79,7 +73,7 @@ Vector3d Vector3d::operator-(const Vector3d& other) {
     };
 }
 
-Vector3d Vector3d::operator+(const Vector3d& other) {
+Vector3d Vector3d::operator+(const Vector3d& other) const {
     return {
         x + other.x ,
         y + other.y ,
@@ -87,7 +81,7 @@ Vector3d Vector3d::operator+(const Vector3d& other) {
     };
 }
 
-Vector3d Vector3d::rotate_x(float angle) {
+Vector3d Vector3d::rotate_x(float angle) const {
 
     return Vector3d(
         x,
@@ -97,7 +91,7 @@ Vector3d Vector3d::rotate_x(float angle) {
 
 }
 
-Vector3d Vector3d::rotate_y(float angle) {
+Vector3d Vector3d::rotate_y(float angle) const {
     return Vector3d(
         x * std::cos(angle) - z * std::sin(angle),
         y,
@@ -106,7 +100,7 @@ Vector3d Vector3d::rotate_y(float angle) {
 
 }
 
-Vector3d Vector3d::rotate_z(float angle) {
+Vector3d Vector3d::rotate_z(float angle) const {
 
     return Vector3d(
         x * std::cos(angle) - y * std::sin(angle),
@@ -114,33 +108,6 @@ Vector3d Vector3d::rotate_z(float angle) {
         z 
     );
 
-}
-
-Vector3d::Vector3d(): x(0.0),y(0.0),z(0.0) {
-}
-
-Vector3d::Vector3d(float p_x,float p_y,float p_z) {
-
-    x = p_x;
-    y = p_y;
-    z = p_z;
-}
-
-Vector3d::Vector3d(const Vector3d& other) {
-    if (this != &other) {
-       x = other.x;
-       y = other.y;
-       z = other.z;
-    }
-}
-
-Vector3d& Vector3d::operator=(const Vector3d& other) {
-    if (this != &other) {
-       x = other.x;
-       y = other.y;
-       z = other.z;
-    }
-    return *this;
 }
 
 Vector3d Vector3d::operator*(float scalar) const {
@@ -168,12 +135,15 @@ Vector3d Vector3d::operator/(float scalar) const {
     };
 }
 
-float Vector3d::dot(const Vector3d& other) {
+float Vector3d::dot(const Vector3d& other) const {
     return x * other.x + y * other.y + z * other.z;
 }
 
 void Vector3d::normalize() {
     float len = get_length();
+    if (len == 0.0f) {
+        return;
+    }
     x /= len;
     y /= len;
     z /= len;
@@ -182,17 +152,6 @@ void Vector3d::normalize() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Camera
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-Camera::Camera() {
-
-}
-
-Camera::Camera(Vector3d& p_position,Vector3d& p_rotation, float p_fov):
-   position(p_position),
-   rotation(p_rotation),
-   fov(p_fov)
-{
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Triangle
@@ -215,5 +174,4 @@ void Triangle::fill(uint32_t color) {
 void Triangle::fill_flat_bottom_triangle(Vector2d a,Vector2d b,int Mx,int My,uint32_t color) {
     
 }
-
 

@@ -1,5 +1,8 @@
 #include "example.h"
 
+#include <algorithm>
+#include <cstddef>
+
 #include <SDL2/SDL.h>
 
 void Example::initialize() {}
@@ -22,15 +25,12 @@ void Example::setColorBufferTexture(SDL_Texture* texture) {
 }
 
 void Example::clear_color_buffer(std::uint32_t color) {
-    if (color_buffer == nullptr) {
+    if (color_buffer == nullptr || screen_width <= 0 || screen_height <= 0) {
         return;
     }
 
-    for (int y = 0; y < screen_height; ++y) {
-        for (int x = 0; x < screen_width; ++x) {
-            color_buffer[(screen_width * y) + x] = color;
-        }
-    }
+    const std::size_t total_pixels = static_cast<std::size_t>(screen_width) * static_cast<std::size_t>(screen_height);
+    std::fill_n(color_buffer, total_pixels, color);
 }
 
 void Example::setup_render() {

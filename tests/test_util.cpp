@@ -1,9 +1,11 @@
 #include <cstdint>
+#include <cmath>
 #include <memory>
 
 #include <gtest/gtest.h>
 
 #include "example.h"
+#include "example4.h"
 #include "sdlwindow.h"
 #include "util.h"
 
@@ -24,6 +26,11 @@ public:
     int width() const { return screen_width; }
     int height() const { return screen_height; }
     bool hasBuffer() const { return color_buffer != nullptr; }
+};
+
+class TestExample4 : public Example4 {
+public:
+    using Example4::draw_line;
 };
 }
 
@@ -61,6 +68,20 @@ TEST(Vector2dTest, NormalizeUpdatesLengthToOne) {
     Vector2d v(3.0f, 4.0f);
     v.normalize();
     EXPECT_FLOAT_EQ(v.get_length(), 1.0f);
+}
+
+TEST(Vector2dTest, NormalizingZeroVectorLeavesItZero) {
+    Vector2d v;
+    v.normalize();
+    EXPECT_FLOAT_EQ(v.get_x(), 0.0f);
+    EXPECT_FLOAT_EQ(v.get_y(), 0.0f);
+}
+
+TEST(Vector2dTest, ReadOperationsWorkOnConstVectors) {
+    const Vector2d v(3.0f, 4.0f);
+    EXPECT_FLOAT_EQ(v.get_length(), 5.0f);
+    EXPECT_FLOAT_EQ(v.dot(Vector2d(1.0f, 0.0f)), 3.0f);
+    EXPECT_FLOAT_EQ((v + Vector2d(1.0f, 1.0f)).get_x(), 4.0f);
 }
 
 TEST(Vector3dTest, DefaultConstructorInitializesToZero) {
@@ -101,6 +122,21 @@ TEST(Vector3dTest, DotAndNormalizeWork) {
     EXPECT_FLOAT_EQ(v.dot(Vector3d(1.0f, 1.0f, 0.0f)), 7.0f);
     v.normalize();
     EXPECT_FLOAT_EQ(v.get_length(), 1.0f);
+}
+
+TEST(Vector3dTest, NormalizingZeroVectorLeavesItZero) {
+    Vector3d v;
+    v.normalize();
+    EXPECT_FLOAT_EQ(v.get_x(), 0.0f);
+    EXPECT_FLOAT_EQ(v.get_y(), 0.0f);
+    EXPECT_FLOAT_EQ(v.get_z(), 0.0f);
+}
+
+TEST(Vector3dTest, ReadOperationsWorkOnConstVectors) {
+    const Vector3d v(1.0f, 2.0f, 3.0f);
+    EXPECT_FLOAT_EQ(v.get_length(), std::sqrt(14.0f));
+    EXPECT_FLOAT_EQ(v.dot(Vector3d(1.0f, 0.0f, 0.0f)), 1.0f);
+    EXPECT_FLOAT_EQ(v.rotate_x(0.0f).get_y(), 2.0f);
 }
 
 TEST(Vector3dTest, RotationHelpersProduceExpectedValues) {
@@ -161,6 +197,17 @@ TEST(ExampleTest, BaseClassCanManageColorBufferAndRenderHooks) {
 
     example.setup_render();
     example.clear_render();
+}
+
+TEST(Example4Test, ZeroLengthLineDrawsItsSinglePixel) {
+    TestExample4 example;
+    example.setWindowSize(3, 3);
+
+    std::uint32_t buffer[9] = {};
+    example.setColorBuffer(buffer);
+    example.draw_line(1, 1, 1, 1, 0xFFFF0000);
+
+    EXPECT_EQ(buffer[4], 0xFFFF0000u);
 }
 
 TEST(SdlWindowTest, StartsStoppedAndCanAttachAnExample) {

@@ -22,7 +22,7 @@ private:
     std::vector<pikuma::utility::Triangle> triangles_to_render;
 
     //example 6
-    pikuma::utility::Mesh cube_mesh;
+    pikuma::utility::Mesh mesh;
 
 
 protected:

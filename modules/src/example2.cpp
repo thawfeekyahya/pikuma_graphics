@@ -36,7 +36,7 @@ void Example2::draw_rectangle(uint x,uint y,uint width,uint height,uint32_t colo
 }
 
 void Example2::draw_pixel(int x,int y, uint32_t color) {
-    if ((x >=0 && x < screen_width) && (y >= 0 && y < screen_height)) {
+    if (color_buffer != nullptr && (x >=0 && x < screen_width) && (y >= 0 && y < screen_height)) {
         color_buffer[ screen_width * y + x ] = color;
     }
 }

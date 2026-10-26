@@ -23,6 +23,11 @@ void Example4::draw_line(int x0,int y0,int x1,int y1,uint32_t color) {
 
     int longest_side_length = std::abs(delta_x) > std::abs(delta_y) ? std::abs(delta_x) : std::abs(delta_y);
 
+    if (longest_side_length == 0) {
+        draw_pixel(x0, y0, color);
+        return;
+    }
+
     float x_incr = delta_x / static_cast<float>(longest_side_length);
     float y_incr = delta_y / static_cast<float>(longest_side_length);
 

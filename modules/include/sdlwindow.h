@@ -18,6 +18,32 @@ struct WindowConfig {
     bool borderless = true;
 };
 
+namespace detail {
+struct SdlWindowDeleter {
+    void operator()(SDL_Window* window) const noexcept {
+        if (window != nullptr) {
+            SDL_DestroyWindow(window);
+        }
+    }
+};
+
+struct SdlRendererDeleter {
+    void operator()(SDL_Renderer* renderer) const noexcept {
+        if (renderer != nullptr) {
+            SDL_DestroyRenderer(renderer);
+        }
+    }
+};
+
+struct SdlTextureDeleter {
+    void operator()(SDL_Texture* texture) const noexcept {
+        if (texture != nullptr) {
+            SDL_DestroyTexture(texture);
+        }
+    }
+};
+}  // namespace detail
+
 class SdlWindow {
 public:
     explicit SdlWindow(WindowConfig config = {});
@@ -26,8 +52,8 @@ public:
     [[nodiscard]] bool isRunning() const noexcept;
     void setup();
     void update();
-    void initialize();
-    void destroy_window();
+    bool initialize();
+    void destroy_window() noexcept;
 
     void attach(std::unique_ptr<Example> example);
 
@@ -49,9 +75,9 @@ private:
     RENDER_MODE m_renderMode = RENDER_MODE::RENDER_WIRE;
     WindowConfig m_config;
     std::vector<std::uint32_t> m_colorBuffer;
-    SDL_Window* m_window = nullptr;
-    SDL_Renderer* m_renderer = nullptr;
-    SDL_Texture* m_colorBufferTexture = nullptr;
+    std::unique_ptr<SDL_Window, detail::SdlWindowDeleter> m_window;
+    std::unique_ptr<SDL_Renderer, detail::SdlRendererDeleter> m_renderer;
+    std::unique_ptr<SDL_Texture, detail::SdlTextureDeleter> m_colorBufferTexture;
 
     std::unique_ptr<Example> m_example;
 };
