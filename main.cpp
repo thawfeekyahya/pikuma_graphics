@@ -1,21 +1,30 @@
-#include <memory>
+// Usage: ./pikuma [example-number]
+// With no number, runs the latest example (kLatestExample in examples/examples.h).
 
-#include "sdlwindow.h"
-#include "example1.h"
-#include "example7.h"
-#include "example6.h"
+#include <cstdlib>
+#include <iostream>
+#include <string>
 
-int main() {
-    SdlWindow window;
-    window.initialize();
+#include "examples.h"
+#include "pikuma/sdl_window.h"
 
-    auto example = std::make_unique<Example6>();
-    example->initialize();
-    window.attach(std::move(example));
-
-    while (window.isRunning()) {
-        window.update();
+int main(int argc, char* argv[]) {
+    int example_number = pikuma::examples::kLatestExample;
+    if (argc > 1) {
+        example_number = std::atoi(argv[1]);
     }
 
-    return 0;
+    auto example = pikuma::examples::make_example(example_number);
+    if (!example) {
+        std::cerr << "Unknown example: " << (argc > 1 ? argv[1] : "") << '\n';
+        return EXIT_FAILURE;
+    }
+
+    pikuma::SdlWindow window;
+    if (!window.initialize()) {
+        return EXIT_FAILURE;
+    }
+
+    window.run(*example);
+    return EXIT_SUCCESS;
 }
